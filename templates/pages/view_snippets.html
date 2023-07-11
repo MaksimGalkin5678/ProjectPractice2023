@@ -1,53 +1,88 @@
 {% extends 'base.html' %}
-{%block content%}
-    <main role="main" class="mt-3 flex-shrink-0">
-        <div class="container">
-            <div class="row">
-                <div class="col text-center">
-                    <h1>{{ pagename }}</h1>
-                    <hr>
-                </div>
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <h1>{{ pagename }}</h1>
+                <hr>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col">
-                    <p>На данной страницы будут отображаться все созданные сниппеты.</p>
-                    <p>Пока тут просто пример, но скоро заменим реальными сниппетами из БД!</p>
-                    <hr>
-                </div>
+        <div class="row">
+            <div class="col">
+                <p>На данной странице отображаются все созданные сниппеты.</p>
+                <hr>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col">
-                    <table class="table table-striped">
-                        <thead class="thead-dark">
+        <div class="row">    
+            <div class="col">
+                <form method="GET">            
+                    <select name="lang">
+                        <option value="py" {% if lang == "py" %}selected{% endif %}>python</option>                
+                        <option value="js" {% if lang == "js" %}selected{% endif %}>javascript</option>
+                        <option value="cpp" {% if lang == "cpp" %}selected{% endif %}>C++</option>            
+                    </select>
+                    <select name="username">
+                        {% for user in users %}                
+                            <option value="{{ user.username }}">{{ user.username }}</option>
+                        {% endfor %}            
+                    </select>
+                    <button type="submit">Применить</button>        
+                </form>
+            </div>    
+            <div class="col">
+                <form method="RESET">            
+                    <button type="submit">Сбросить фильтры</button>
+                </form>    
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">
+                            <a href="?sort={{ sort }}"> Название </a>
+                            {% if sort == 'name' %}<i class="fa-solid fa-sort-up"></i> {% endif %}
+                            {% if sort == '-name' %}<i class="fa-solid fa-sort-down"></i> {% endif %}
+                        </th>
+                        <th scope="col">Дата создания</th>
+                        <th scope="col">Язык</th>
+                        <th scope="col">Автор</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for snippet in snippets %}
                         <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Название</th>
-                            <th scope="col">Дата создания</th>
+                            <td scope="row">{{ snippet.id }}</td>
+                            <td>
+                                <a href="{% url 'snippet-detail' snippet.id %}">{{ snippet.name }}</a>
+                                {% if request.user.is_authenticated %}
+                                    <a href="{% url 'snippet-delete' snippet.id %}">
+                                        <i style="color: red" class="fa-solid fa-trash"></i>
+                                    </a>
+                                    <a href="">
+                                        <i style="color: #0069d9" class="fa-solid fa-pen"></i>
+                                    </a>
+                                {% endif %}
+                            </td>
+                            <td>{{ snippet.creation_date }}</td>
+                            <td>{{ snippet.lang }}</td>
+                            <td>{{ snippet.user.username|default:"Anonimous" }}</td>
                         </tr>
-                        </thead>
-                        <tbody>
+                    {% endfor %}
 
-                        <tr>
-                            <td scope="row">1</td>
-                            <td><a href="{% url 'snippets'%}">Пример сниппета</a></td>
-                            <td>23.05.2019 11:32</td>
-                        </tr>
 
-                        <tr>
-                            <td scope="row">2</td>
-                            <td><a href="/snippets/2">И ещё один пример</a></td>
-                            <td>23.05.2019 11:34</td>
-                        </tr>
-
-                        </tbody>
-                    </table>
-                    <div align="right">
-                        <i style="color: gray;">Всего сниппетов: 2</i>
-                    </div>
+                    </tbody>
+                </table>
+                <div align="right">
+                    <i style="color: gray;">Всего сниппетов: {{ count }}</i>
                 </div>
             </div>
         </div>
-    </main>
-{%endblock%}
+    </div>
+{% endblock %}

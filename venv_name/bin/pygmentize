@@ -1,4 +1,4 @@
-#!/home/student/SnippetsTemplate-master/venv_name/bin/python3
+#!/home/student/Snippets_23_11-master/venv_name/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
