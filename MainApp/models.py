@@ -27,3 +27,4 @@ class Comment(models.Model):
     creation_date = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(to=User, on_delete=models.CASCADE)
     snippet = models.ForeignKey(to=Snippet, on_delete=models.CASCADE, related_name='comments')
+    image = models.ImageField(upload_to="images",blank=True, default='NULL')
