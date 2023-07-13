@@ -20,7 +20,6 @@ class SnippetForm(ModelForm):
             'code': Textarea(attrs={"placeholder": 'Код сниппета'}),
         }
 
-
 class UserRegistrationForm(ModelForm):
     class Meta:
         model = User

@@ -16,6 +16,7 @@ class Snippet(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE,
                              blank=True, null=True)
     public = models.BooleanField(default=True)
+    hide = models.BooleanField(default=True)
 
     def __str__(self):
         return f"Snippet: {self.name} author:{self.user}"

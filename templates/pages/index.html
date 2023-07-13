@@ -8,7 +8,15 @@
                 <hr>
             </div>
         </div>
-
+        <div align="center">
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
         <div class="row">
             <div class="col">
                 <p>Добро пожаловать, уважаемый пользователь!
@@ -20,7 +28,7 @@
 
         <div class="row mt-3">
             <div class="col-4 offset-4">
-                <a href="" class="btn btn-secondary btn-block">Добавить сниппет</a>
+                <a href="{% url 'snippets-add' %}" class="btn btn-secondary btn-block">Добавить сниппет</a>
             </div>
         </div>
 
@@ -28,11 +36,11 @@
             <div class="col">
                 <hr>
                 <h4>Найти сниппет по номеру</h4>
-                <form action='' id="view_snippet_form">
+                <form action="{% url 'snippet-search'%}" id="view_snippet_form">
                     <div class="form-group row">
                         <label for="snippet_id" class="col-sm-2 col-form-label col-form-label-lg">Номер:</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control form-control-lg" id="snippet_id"
+                            <input type="number" class="form-control form-control-lg" name="snippet_id"
                                    placeholder="введите число">
                         </div>
                         <div class="col-sm-2">
