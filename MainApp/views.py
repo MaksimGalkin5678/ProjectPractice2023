@@ -235,7 +235,7 @@ def snippet_show(request):
     return redirect("mysnippet")
 
 def snippet_search(request):
-    if type(request.GET["snippet_id"]) != int or request.GET["snippet_id"]<=0:
+    if type(request.GET["snippet_id"]) != str or int(request.GET["snippet_id"])<=0:
         messages.add_message(request, messages.INFO, 'Введите корректное число!')
         return render (request, 'pages/index.html')
     snippet_id = int(request.GET["snippet_id"])
